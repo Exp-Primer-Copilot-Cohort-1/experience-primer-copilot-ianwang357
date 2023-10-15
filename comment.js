@@ -1,15 +1,33 @@
 // Create web server
-// 1. Import module
-const express = require('express');
-const app = express();
-const port = 3000;
 
-// 2. Set route
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+var express = require('express');
+var router = express.Router();
 
-// 3. Start server
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+// Get database
+var db = require('../db');
+
+// Get controller
+var commentController = require('../controllers/commentController');
+
+// Get all comments
+router.get('/', commentController.getAllComments);
+
+// Get comment by id
+router.get('/:id', commentController.getCommentById);
+
+// Get comment by user id
+router.get('/user/:id', commentController.getCommentByUserId);
+
+// Get comment by post id
+router.get('/post/:id', commentController.getCommentByPostId);
+
+// Create new comment
+router.post('/', commentController.createComment);
+
+// Update comment by id
+router.put('/:id', commentController.updateComment);
+
+// Delete comment by id
+router.delete('/:id', commentController.deleteComment);
+
+module.exports = router;
